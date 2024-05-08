@@ -21,8 +21,10 @@ jobs:
 
       - name: Copiar imagens para maquina remota
         run: |
-          sudo scp \
-          -r *.png *.jpg *.jpeg *.webp \
+          echo "$SSH_PRIVATE_KEY" > ssh_key.pem
+          sudo chmod 600 ssh_key.pem
+          sudo scp -i ssh_key.pem -r -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+          *.png *.jpg *.jpeg *.webp \
           gitact@54.198.120.23:/mnt/efs
         env:
-          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
