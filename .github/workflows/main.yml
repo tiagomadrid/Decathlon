@@ -19,8 +19,8 @@ jobs:
 
       - name: Adicionar EC2 ao known-hosts
         run: |
-        mkdir -p ~/.ssh
-        ssh-keyscan -H 35.153.179.210 >> ~/.ssh/known_hosts
+          mkdir -p ~/.ssh
+          ssh-keyscan -H 35.153.179.210 >> ~/.ssh/known_hosts
 
       - name: Copiar imagens para maquina remota
         run: |
