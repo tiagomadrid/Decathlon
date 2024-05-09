@@ -18,7 +18,9 @@ jobs:
         run: sudo apt-get install -y ssh openssh-client
 
       - name: Adicionar EC2 ao known-hosts
-        run: ssh-keyscan -H 35.153.179.210 >> ~/.ssh/known_hosts
+        run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -H 35.153.179.210 >> ~/.ssh/known_hosts
 
       - name: Copiar imagens para maquina remota
         run: |
