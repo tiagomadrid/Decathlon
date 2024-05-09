@@ -25,6 +25,6 @@ jobs:
           chmod 600 ssh_key.pem
           scp -i ssh_key.pem -r -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
           *.png *.jpg *.jpeg *.webp \
-          gitact@54.198.120.23:/mnt/efs
+          gitact@18.234.109.114:/mnt/efs
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
