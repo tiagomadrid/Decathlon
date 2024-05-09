@@ -1,14 +1,13 @@
+# teste1
 name: bike_automacao
-run-name: ${{ github.actor }} Pipeline deploy
+run-name: ${{ github.actor }} Pipeline deploy :)
 on:
   push:
     branches:
       - "main"
     paths:
-      - "*.png"
-      - "*.jpg"
-      - "*.jpeg"
-      - "*.webp"
+      - images/**
+      - .github/workflows/main.yml
 jobs:
   githubactions-bike:
     runs-on: ubuntu-latest
@@ -17,12 +16,23 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Instalar SSH
-        run: sudo apt-get install -y ssh
+        run: sudo apt-get install -y ssh openssh-client
+
+      - name: Adicionar EC2 ao known-hosts
+        run: |
+          ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ''
+          ssh-keyscan -H 35.153.179.210 >> ~/.ssh/known_hosts
+
+      - name: Verificar a chave
+        run: echo "$SSH_PRIVATE_KEY"
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
 
       - name: Copiar imagens para maquina remota
         run: |
-          sudo scp -r -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-          -r *.png *.jpg *.jpeg *.webp \
-          gitact@54.198.120.23:/mnt/efs
+          echo "$SSH_PRIVATE_KEY" > ssh_key.pem
+
+          chmod 600 ssh_key.pem
+          scp -i ssh_key.pem images/* ec2-user@35.153.179.210:/home/ec2-user/efs
         env:
-          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
