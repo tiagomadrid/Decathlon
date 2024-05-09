@@ -22,8 +22,8 @@ jobs:
       - name: Copiar imagens para maquina remota
         run: |
           echo "$SSH_PRIVATE_KEY" > ssh_key.pem
-          chmod 400 ssh_key.pem
-          scp -i ssh_key.pem -r -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+          chmod 600 ssh_key.pem
+          scp -i ssh_key.pem -r -o StrictHostKeyChecking=no \
           *.png *.jpg *.jpeg *.webp \
           gitact@18.234.109.114:/mnt/efs
         env:
