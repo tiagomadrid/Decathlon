@@ -5,10 +5,8 @@ on:
     branches:
       - "develop"
     paths:
-      - "*.png"
-      - "*.jpg"
-      - "*.jpeg"
-      - "*.webp"
+      - images/**
+
 jobs:
   githubactions-bike:
     runs-on: ubuntu-latest
@@ -17,14 +15,15 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Instalar SSH
-        run: sudo apt-get install -y ssh
+        run: sudo apt-get install -y ssh openssh-client
+
+      - name: Adicionar EC2 ao known-hosts
+        run: ssh-keyscan -H 35.153.179.210 >> ~/.ssh/known_hosts
 
       - name: Copiar imagens para maquina remota
         run: |
           echo "$SSH_PRIVATE_KEY" > ssh_key.pem
           chmod 600 ssh_key.pem
-          scp -i ssh_key.pem \
-          *.png *.jpg *.jpeg *.webp \
-          gitact@35.172.213.72:/mnt/efs
+          scp -i ssh_key.pem images/*.* ec2-user@35.153.179.210:/home/ec2-user/efs/
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
