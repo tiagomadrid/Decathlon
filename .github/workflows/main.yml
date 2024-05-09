@@ -28,6 +28,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
 
       - name: Copiar imagens para maquina remota
+        if: always()
         run: |
           echo "$SSH_PRIVATE_KEY" > ssh_key.pem
 
