@@ -23,8 +23,8 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" > ssh_key.pem
           chmod 600 ssh_key.pem
-          scp -i ssh_key.pem -r -o StrictHostKeyChecking=no \
+          scp -i ssh_key.pem \
           *.png *.jpg *.jpeg *.webp \
-          gitact@18.234.109.114:/mnt/efs
+          gitact@35.172.213.72:/mnt/efs
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
