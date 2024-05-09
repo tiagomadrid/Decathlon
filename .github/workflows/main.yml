@@ -1,5 +1,5 @@
 name: bike_automacao
-run-name: ${{ github.actor }} Pipeline deploy :D
+run-name: ${{ github.actor }} Pipeline deploy :)
 on:
   push:
     branches:
