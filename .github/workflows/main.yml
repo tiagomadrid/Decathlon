@@ -21,7 +21,7 @@ jobs:
       - name: Adicionar EC2 ao known-hosts
         run: |
           ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ''
-          ssh-keyscan -H 35.153.179.210 >> ~/.ssh/known_hosts
+          ssh-keyscan -H 52.90.202.98 >> ~/.ssh/known_hosts
 
       - name: Verificar a chave
         run: echo "$SSH_PRIVATE_KEY"
@@ -33,6 +33,6 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ssh_key.pem
 
           chmod 600 ssh_key.pem
-          scp -i ssh_key.pem images/* ec2-user@35.153.179.210:/home/ec2-user/efs
+          scp -i ssh_key.pem images/* ec2-user@52.90.202.98:/home/ec2-user/efs
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
